@@ -16,6 +16,20 @@ public class Comision {
 		this.alumnos = new HashSet<Alumno>();
 	}
 
+	public boolean inscribirAlumno(Alumno alumno) {
+		if (!tieneCupoDisponible())
+			return false;
+		return alumnos.add(alumno);
+	}
+
+	public boolean contieneAlumno(Alumno alumno) {
+		return alumnos.contains(alumno);
+	}
+
+	public boolean tieneCupoDisponible() {
+		return alumnos.size() < cupoMaximo;
+	}
+
 	private void setCodigo(String codigo) {
 		if (codigo.equals(""))
 			throw new IllegalArgumentException("El código no puede estar vacío");
