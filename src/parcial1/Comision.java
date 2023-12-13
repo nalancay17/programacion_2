@@ -30,15 +30,23 @@ public class Comision {
 		return alumnos.size() < cupoMaximo;
 	}
 
-	private void setCodigo(String codigo) {
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
 		if (codigo.equals(""))
 			throw new IllegalArgumentException("El código no puede estar vacío");
 		this.codigo = codigo;
 	}
 
-	private void setCupoMaximo(int cupoMaximo) {
-		if (cupoMaximo < 0)
-			throw new IllegalArgumentException("El cupo no puede ser menor a 0");
+	public int getCupoMaximo() {
+		return cupoMaximo;
+	}
+
+	public void setCupoMaximo(int cupoMaximo) {
+		if (cupoMaximo <= 0)
+			throw new IllegalArgumentException("El cupo no puede ser menor o igual a 0");
 		this.cupoMaximo = cupoMaximo;
 	}
 
