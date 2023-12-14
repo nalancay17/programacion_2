@@ -22,4 +22,8 @@ public class SistemaInscripcion {
 			throw new AlumnoExistenteException("El alumno ya se encuentra registrado");
 	}
 
+	public boolean alumnoEstaRegistrado(int nroLibreta) {
+		return alumnos.contains(new Alumno(nroLibreta, "nombre", "apellido"));
+	}
+
 }
