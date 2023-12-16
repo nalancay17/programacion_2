@@ -7,6 +7,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import parcial1.AlumnoExistenteException;
+import parcial1.AlumnoNoRegistradoException;
+import parcial1.AlumnoYaInscriptoEnComisionException;
+import parcial1.ComisionInexistenteException;
+import parcial1.ComisionSinCupoDisponibleException;
 import parcial1.ComisionYaExistenteException;
 import parcial1.MateriaInexistenteException;
 import parcial1.MateriaYaExistenteException;
@@ -94,6 +98,128 @@ public class SistemaInscripcionTest {
 
 		sistema.crearComision(materia, codigoComision, cupoMaximo);
 		sistema.crearComision(materia, codigoComision, cupoMaximo);
+	}
+
+	@Test(expected = AlumnoNoRegistradoException.class)
+	public void inscribirAlumnoEnComisionNoRegistradoTest() throws Exception {
+		int nroLibreta = 1;
+		String materia = "Bases de Datos 2";
+		String codigoComision = "abc";
+
+		sistema.inscribirAlumnoEnComision(nroLibreta, materia, codigoComision);
+	}
+
+	@Test(expected = MateriaInexistenteException.class)
+	public void inscribirAlumnoEnComisionMateriaNoExistenteTest() throws Exception {
+		int nroLibreta = 1;
+		String materia = "Bases de Datos 2";
+		String codigoComision = "abc";
+		sistema.registrarAlumno(nroLibreta, "nombre", "apellido");
+
+		sistema.inscribirAlumnoEnComision(nroLibreta, materia, codigoComision);
+	}
+
+	@Test(expected = ComisionInexistenteException.class)
+	public void inscribirAlumnoEnComisionNoExistenteTest() throws Exception {
+		int nroLibreta = 1;
+		String materia = "Bases de Datos 2";
+		String codigoComision = "abc";
+		sistema.registrarAlumno(nroLibreta, "nombre", "apellido");
+		sistema.crearMateria(materia);
+
+		sistema.inscribirAlumnoEnComision(nroLibreta, materia, codigoComision);
+	}
+
+	@Test(expected = ComisionSinCupoDisponibleException.class)
+	public void inscribirAlumnoEnComisionSinCupoDisponibleTest() throws Exception {
+		int nroLibreta1 = 1;
+		int nroLibreta2 = 2;
+		String materia = "Bases de Datos 2";
+		String codigoComision = "abc";
+		int cupoMaximo = 1;
+		sistema.registrarAlumno(nroLibreta1, "nombre1", "apellido1");
+		sistema.registrarAlumno(nroLibreta2, "nombre2", "apellido2");
+		sistema.crearMateria(materia);
+		sistema.crearComision(materia, codigoComision, cupoMaximo);
+
+		sistema.inscribirAlumnoEnComision(nroLibreta1, materia, codigoComision);
+		sistema.inscribirAlumnoEnComision(nroLibreta2, materia, codigoComision);
+	}
+
+	@Test(expected = AlumnoYaInscriptoEnComisionException.class)
+	public void inscribirAlumnoEnComisionYaInscriptoEnComisionTest() throws Exception {
+		int nroLibreta1 = 1;
+		String materia = "Bases de Datos 2";
+		String codigoComision = "abc";
+		int cupoMaximo = 2;
+		sistema.registrarAlumno(nroLibreta1, "nombre1", "apellido1");
+		sistema.crearMateria(materia);
+		sistema.crearComision(materia, codigoComision, cupoMaximo);
+
+		sistema.inscribirAlumnoEnComision(nroLibreta1, materia, codigoComision);
+		sistema.inscribirAlumnoEnComision(nroLibreta1, materia, codigoComision);
+	}
+
+	@Test
+	public void inscribirAlumnoEnComisionOkTest() throws Exception {
+		int nroLibreta = 1;
+		String materia = "Bases de Datos 2";
+		String codigoComision = "abc";
+		int cupoMaximo = 1;
+		sistema.registrarAlumno(nroLibreta, "nombre", "apellido");
+		sistema.crearMateria(materia);
+		sistema.crearComision(materia, codigoComision, cupoMaximo);
+
+		sistema.inscribirAlumnoEnComision(nroLibreta, materia, codigoComision);
+		assertTrue(sistema.alumnoEstaInscriptoEnComision(nroLibreta, materia, codigoComision));
+	}
+
+	@Test(expected = MateriaInexistenteException.class)
+	public void alumnoEstaInscriptoEnComisionMateriaInexistenteTest() throws Exception {
+		int nroLibreta = 1;
+		String materia = "Bases de Datos 2";
+		String codigoComision = "abc";
+		sistema.registrarAlumno(nroLibreta, "nombre", "apellido");
+
+		sistema.inscribirAlumnoEnComision(nroLibreta, materia, codigoComision);
+	}
+
+	@Test(expected = ComisionInexistenteException.class)
+	public void alumnoEstaInscriptoEnComisionInexistenteTest() throws Exception {
+		int nroLibreta = 1;
+		String materia = "Bases de Datos 2";
+		String codigoComision = "abc";
+		sistema.registrarAlumno(nroLibreta, "nombre", "apellido");
+		sistema.crearMateria(materia);
+
+		sistema.inscribirAlumnoEnComision(nroLibreta, materia, codigoComision);
+	}
+
+	@Test
+	public void alumnoNoEstaInscriptoEnComisionTest() throws Exception {
+		int nroLibreta = 1;
+		String materia = "Bases de Datos 2";
+		String codigoComision = "abc";
+		int cupoMaximo = 1;
+		sistema.registrarAlumno(nroLibreta, "nombre", "apellido");
+		sistema.crearMateria(materia);
+		sistema.crearComision(materia, codigoComision, cupoMaximo);
+
+		assertFalse(sistema.alumnoEstaInscriptoEnComision(nroLibreta, materia, codigoComision));
+	}
+
+	@Test
+	public void alumnoEstaInscriptoEnComisionOkTest() throws Exception {
+		int nroLibreta = 1;
+		String materia = "Bases de Datos 2";
+		String codigoComision = "abc";
+		int cupoMaximo = 1;
+		sistema.registrarAlumno(nroLibreta, "nombre", "apellido");
+		sistema.crearMateria(materia);
+		sistema.crearComision(materia, codigoComision, cupoMaximo);
+
+		sistema.inscribirAlumnoEnComision(nroLibreta, materia, codigoComision);
+		assertTrue(sistema.alumnoEstaInscriptoEnComision(nroLibreta, materia, codigoComision));
 	}
 
 }

@@ -51,4 +51,35 @@ public class SistemaInscripcion {
 		comisiones.add(comision);
 	}
 
+	public void inscribirAlumnoEnComision(int nroLibreta, String nombreMateria, String codigoComision) throws Exception {
+		if (!alumnoEstaRegistrado(nroLibreta))
+			throw new AlumnoNoRegistradoException("El alumno debe estar registrado para inscribirlo en una comisión");
+
+		int indiceAlumno = alumnos.indexOf(new Alumno(nroLibreta, "nombre", "apellido"));
+		Alumno alumno = alumnos.get(indiceAlumno);
+		Comision comision = obtenerComisionDeMateria(nombreMateria, codigoComision);
+
+		if (!comision.tieneCupoDisponible())
+			throw new ComisionSinCupoDisponibleException("La comisión no tiene cupo disponible");
+		if (comision.contieneAlumno(alumno))
+			throw new AlumnoYaInscriptoEnComisionException("El alumno ya se encuentra inscripto en la comisión");
+		comision.inscribirAlumno(alumno);
+	}
+
+	public boolean alumnoEstaInscriptoEnComision(int nroLibreta, String materia, String codigoComision) throws Exception {
+		Comision comision = obtenerComisionDeMateria(materia, codigoComision);
+		boolean existeAlumno = comision.contieneAlumno(new Alumno (nroLibreta, "nombre", "apellido"));
+		return existeAlumno;
+	}
+
+	private Comision obtenerComisionDeMateria(String materia, String codigoComision) throws Exception {
+		if (!materiasYComisiones.containsKey(materia))
+			throw new MateriaInexistenteException("La materia no existe");
+		List<Comision> comisiones = materiasYComisiones.get(materia);
+		int indiceComision = comisiones.indexOf(new Comision(codigoComision, 1));
+		if (indiceComision == -1)
+			throw new ComisionInexistenteException("La comisión indicada no existe");
+		return comisiones.get(indiceComision);
+	}
+
 }
