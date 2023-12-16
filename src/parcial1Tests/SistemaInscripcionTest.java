@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import parcial1.AlumnoExistenteException;
+import parcial1.ComisionYaExistenteException;
+import parcial1.MateriaInexistenteException;
 import parcial1.MateriaYaExistenteException;
 import parcial1.SistemaInscripcion;
 
@@ -62,6 +64,36 @@ public class SistemaInscripcionTest {
 
 		sistema.crearMateria(materia);
 		sistema.crearMateria(materia);
+	}
+
+	@Test
+	public void crearComisionOkTest() throws Exception {
+		String materia = "Bases de Datos II";
+		String codigoComision = "abc1";
+		int cupoMaximo = 1;
+
+		sistema.crearMateria(materia);
+		sistema.crearComision(materia, codigoComision, cupoMaximo);
+	}
+
+	@Test(expected = MateriaInexistenteException.class)
+	public void crearComisionMateriaNoExistenteTest() throws Exception {
+		String materia = "Bases de Datos II";
+		String codigoComision = "abc";
+		int cupoMaximo = 1;
+
+		sistema.crearComision(materia, codigoComision, cupoMaximo);
+	}
+
+	@Test(expected = ComisionYaExistenteException.class)
+	public void crearComisionExistenteTest() throws Exception {
+		String materia = "Bases de Datos II";
+		String codigoComision = "abc";
+		int cupoMaximo = 1;
+		sistema.crearMateria(materia);
+
+		sistema.crearComision(materia, codigoComision, cupoMaximo);
+		sistema.crearComision(materia, codigoComision, cupoMaximo);
 	}
 
 }

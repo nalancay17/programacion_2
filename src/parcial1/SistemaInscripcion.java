@@ -41,4 +41,14 @@ public class SistemaInscripcion {
 		return materiasYComisiones.containsKey(nombre);
 	}
 
+	public void crearComision(String materia, String codigo, int cupoMaximo) throws Exception {
+		Comision comision = new Comision(codigo, cupoMaximo);
+		if (!existeMateria(materia))
+			throw new MateriaInexistenteException("La materia no existe");
+		if (materiasYComisiones.get(materia).contains(comision))
+			throw new ComisionYaExistenteException("La comisión ya existe");
+		List<Comision> comisiones = materiasYComisiones.get(materia);
+		comisiones.add(comision);
+	}
+
 }
