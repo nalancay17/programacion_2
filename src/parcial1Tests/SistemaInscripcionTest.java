@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import parcial1.AlumnoExistenteException;
 import parcial1.AlumnoNoRegistradoException;
-import parcial1.AlumnoYaInscriptoEnComisionException;
+import parcial1.AlumnoYaInscriptoEnMateriaException;
 import parcial1.ComisionInexistenteException;
 import parcial1.ComisionSinCupoDisponibleException;
 import parcial1.ComisionYaExistenteException;
@@ -149,18 +149,20 @@ public class SistemaInscripcionTest {
 		sistema.inscribirAlumnoEnComision(nroLibreta2, materia, codigoComision);
 	}
 
-	@Test(expected = AlumnoYaInscriptoEnComisionException.class)
-	public void inscribirAlumnoEnComisionYaInscriptoEnComisionTest() throws Exception {
+	@Test(expected = AlumnoYaInscriptoEnMateriaException.class)
+	public void inscribirAlumnoEnComisionYaInscriptoEnMateriaTest() throws Exception {
 		int nroLibreta1 = 1;
 		String materia = "Bases de Datos 2";
-		String codigoComision = "abc";
+		String codigoComision1 = "abc1";
+		String codigoComision2 = "abc2";
 		int cupoMaximo = 2;
 		sistema.registrarAlumno(nroLibreta1, "nombre1", "apellido1");
 		sistema.crearMateria(materia);
-		sistema.crearComision(materia, codigoComision, cupoMaximo);
+		sistema.crearComision(materia, codigoComision1, cupoMaximo);
+		sistema.crearComision(materia, codigoComision2, cupoMaximo);
 
-		sistema.inscribirAlumnoEnComision(nroLibreta1, materia, codigoComision);
-		sistema.inscribirAlumnoEnComision(nroLibreta1, materia, codigoComision);
+		sistema.inscribirAlumnoEnComision(nroLibreta1, materia, codigoComision1);
+		sistema.inscribirAlumnoEnComision(nroLibreta1, materia, codigoComision2);
 	}
 
 	@Test
