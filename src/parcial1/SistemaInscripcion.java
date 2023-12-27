@@ -72,6 +72,18 @@ public class SistemaInscripcion {
 		return existeAlumno;
 	}
 
+	public List<String> codigosComisionesConCupoDisponible(String materia) throws Exception {
+		if (!existeMateria(materia))
+			throw new MateriaInexistenteException("La materia no existe");
+		List<String> codigos = new ArrayList<String>();
+
+		materiasYComisiones.get(materia).forEach(comision -> {
+			if (comision.tieneCupoDisponible())
+				codigos.add(comision.getCodigo()); 
+		});
+		return codigos;
+	}
+
 	private Comision obtenerComisionDeMateria(String materia, String codigoComision) throws Exception {
 		if (!materiasYComisiones.containsKey(materia))
 			throw new MateriaInexistenteException("La materia no existe");

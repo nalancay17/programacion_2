@@ -1,7 +1,10 @@
 package parcial1Tests;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -220,6 +223,53 @@ public class SistemaInscripcionTest {
 
 		sistema.inscribirAlumnoEnComision(nroLibreta, materia, codigoComision);
 		assertTrue(sistema.alumnoEstaInscriptoEnComision(nroLibreta, materia, codigoComision));
+	}
+
+	@Test(expected = MateriaInexistenteException.class)
+	public void codigosComisionesConCupoDisponibleMateriaInexistenteTest() throws Exception {
+		String materia = "Bases de Datos 2";
+
+		sistema.codigosComisionesConCupoDisponible(materia);
+	}
+
+	@Test
+	public void codigosComisionesConCupoDisponibleVacioTest() throws Exception {
+		String materia = "Bases de Datos 2";
+		String codigoComision1 = "abc1";
+		String codigoComision2 = "abc2";
+		int cupoMaximo = 1;
+		int nroLibreta1 = 1;
+		int nroLibreta2 = 2;
+
+		sistema.crearMateria(materia);
+		sistema.crearComision(materia, codigoComision1, cupoMaximo);
+		sistema.crearComision(materia, codigoComision2, cupoMaximo);
+		sistema.registrarAlumno(nroLibreta1, "nombre1", "apellido1");
+		sistema.registrarAlumno(nroLibreta2, "nombre2", "apellido2");
+		sistema.inscribirAlumnoEnComision(nroLibreta1, materia, codigoComision1);
+		sistema.inscribirAlumnoEnComision(nroLibreta2, materia, codigoComision2);
+		List<String> codigos = sistema.codigosComisionesConCupoDisponible(materia);
+
+		assertEquals(0, codigos.size());
+	}
+
+	@Test
+	public void codigosComisionesConCupoDisponibleOkTest() throws Exception {
+		String materia = "Bases de Datos 2";
+		String codigoComision1 = "abc1";
+		String codigoComision2 = "abc2";
+		int cupoMaximo = 1;
+		int nroLibreta = 1;
+
+		sistema.crearMateria(materia);
+		sistema.crearComision(materia, codigoComision1, cupoMaximo);
+		sistema.crearComision(materia, codigoComision2, cupoMaximo);
+		sistema.registrarAlumno(nroLibreta, "nombre1", "apellido1");
+		sistema.inscribirAlumnoEnComision(nroLibreta, materia, codigoComision1);
+		List<String> codigos = sistema.codigosComisionesConCupoDisponible(materia);
+
+		assertEquals(1, codigos.size());
+		assertEquals(codigoComision2, codigos.get(0));
 	}
 
 }
