@@ -106,4 +106,40 @@ public class AcumuladoresEjsTest {
 		assertTrue(resultado);
 	}
 
+	@Test
+	public void mayorDiversidadNoTodasFilasConOrdenEstrictamenteAscenTest() {
+		int[][] mxt = {{1, 3, 5}, {90, 4, 6}};
+
+		boolean resultado = AcumuladoresEjs.mayorDiversidad(mxt);
+
+		assertFalse(resultado);
+	}
+
+	@Test
+	public void mayorDiversidadNoTodasColumnasConAlgunElemImparTest() {
+		int[][] mxt = {{2, 3, 5}, {2, 4, 6}};
+
+		boolean resultado = AcumuladoresEjs.mayorDiversidad(mxt);
+
+		assertFalse(resultado);
+	}
+
+	@Test
+	public void mayorDiversidadNoTodasColumnasConAlgunElemParTest() {
+		int[][] mxt = {{1, 3, 5}, {1, 4, 6}};
+
+		boolean resultado = AcumuladoresEjs.mayorDiversidad(mxt);
+
+		assertFalse(resultado);
+	}
+
+	@Test
+	public void mayorDiversidadOkTest() {
+		int[][] mxt = {{1, 3, 5}, {2, 4, 6}};
+
+		boolean resultado = AcumuladoresEjs.mayorDiversidad(mxt);
+
+		assertTrue(resultado);
+	}
+
 }
