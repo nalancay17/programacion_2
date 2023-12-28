@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import parcial1.Alumno;
 import parcial1.AlumnoExistenteException;
 import parcial1.AlumnoNoRegistradoException;
 import parcial1.AlumnoYaInscriptoEnMateriaException;
@@ -31,16 +32,18 @@ public class SistemaInscripcionTest {
 	@Test
 	public void alumnoNoEstaRegistradoTest() throws Exception {
 		int nroLibreta = 1;
+		Alumno alumno = new Alumno(nroLibreta, "nombre", "apellido");
 
-		assertFalse(sistema.alumnoEstaRegistrado(nroLibreta));
+		assertFalse(sistema.alumnoEstaRegistrado(alumno));
 	}
 
 	@Test
 	public void registrarAlumnoOkTest() throws Exception {
 		int nroLibreta = 1;
+		Alumno alumno = new Alumno(nroLibreta, "nombre", "apellido");
 
 		sistema.registrarAlumno(nroLibreta, "Carlos", "Fuentes");
-		assertTrue(sistema.alumnoEstaRegistrado(nroLibreta));
+		assertTrue(sistema.alumnoEstaRegistrado(alumno));
 	}
 
 	@Test(expected = AlumnoExistenteException.class)
