@@ -142,4 +142,34 @@ public class AcumuladoresEjsTest {
 		assertTrue(resultado);
 	}
 
+	@Test
+	public void arregloEnFilasMatrizVaciaTest() {
+		int[][] mxt = {};
+		int[] arreglo = {4, 7, 5, 1};
+
+		boolean resultado = AcumuladoresEjs.arregloEnFilas(mxt, arreglo);
+
+		assertTrue(resultado);
+	}
+
+	@Test
+	public void arregloEnFilasNoTodosElArregloEnFilasDeMatrizTest() {
+		int[][] mxt = {{4, 2, 13, 5}, {6, 7, 1, 3}, {3, 7, 9, 11}, {12, 8, 5, 10}};
+		int[] arreglo = {4, 7, 5, 1};
+
+		boolean resultado = AcumuladoresEjs.arregloEnFilas(mxt, arreglo);
+
+		assertFalse(resultado);
+	}
+
+	@Test
+	public void arregloEnFilasOkTest() {
+		int[][] mxt = {{9, 2, 4, 5}, {6, 7, 1, 7}, {3, 5, 9, 11}, {12, 8, 5, 1}};
+		int[] arreglo = {4, 7, 5, 1};
+
+		boolean resultado = AcumuladoresEjs.arregloEnFilas(mxt, arreglo);
+
+		assertTrue(resultado);
+	}
+
 }

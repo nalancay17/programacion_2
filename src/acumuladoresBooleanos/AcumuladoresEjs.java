@@ -33,6 +33,14 @@ public class AcumuladoresEjs {
 		return matrizConTodasFilasOrdenadasAscen(mtx) && matrizConTodasColConAlMenosUnElemParYOtroImpar(mtx);
 	}
 
+	public static boolean arregloEnFilas(int[][] mat, int[] arreglo) {
+		boolean ret = true;
+		for (int i = 0; i < mat.length; i++) {
+			ret = ret && contieneElem(arreglo[i], mat[i]);
+		}
+		return ret;
+	}
+
 	private static boolean contieneElem(int elem, int[] arreglo) {
 		boolean ret = false;
 		for (int i = 0; i < arreglo.length; i++) {
